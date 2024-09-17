@@ -37,5 +37,16 @@ namespace EmployeeApi.Controllers
             dbContext.SaveChanges();
             return Ok(employeeEntity);
         }
+        [HttpGet]
+        [Route("{id:guid}")]
+        public IActionResult GetEmployeeById(Guid id)
+        {
+            var employee = dbContext.Employees.Find(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return Ok(employee);
+        }
     }
 }
