@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using Dapper;
+using System.Data.SqlClient;
 using videoGameApi.Models;
 
 namespace videoGameApi.Repositories
@@ -12,9 +13,11 @@ namespace videoGameApi.Repositories
             _configuration = configuration;
         }
 
-        public Task<List<VideoGame>> GetAllAsync()
+        public async Task<List<VideoGame>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            using var connection = GetConnection();
+            var videoGames = await connection.QueryAsync<VideoGame>("select * from VideoGames");
+            return videoGames.ToList();
         }
 
         private SqlConnection GetConnection()
