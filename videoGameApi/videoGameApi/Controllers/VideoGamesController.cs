@@ -33,5 +33,11 @@ namespace videoGameApi.Controllers
             }
             return Ok(videoGame);
         }
+        [HttpPost]
+        public async Task<ActionResult<VideoGame>> AddAsync(VideoGame videoGame)
+        {
+            await _videoGameRepository.AddSync(videoGame);
+            return Ok();
+        }
     }
 }

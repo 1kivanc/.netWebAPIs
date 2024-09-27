@@ -13,6 +13,13 @@ namespace videoGameApi.Repositories
             _configuration = configuration;
         }
 
+        public async Task AddSync(VideoGame videoGame)
+        {
+            using var connection = GetConnection();
+            await connection.ExecuteAsync("insert into VideoGames (Title, Publisher, Developer, ReleaseDate) values (@Title, @Publisher, @Developer, @ReleaseDate)", videoGame);
+
+        }
+
         public async Task<List<VideoGame>> GetAllAsync()
         {
             using var connection = GetConnection();
