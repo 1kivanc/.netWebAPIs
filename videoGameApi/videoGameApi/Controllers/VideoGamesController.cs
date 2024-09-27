@@ -22,5 +22,16 @@ namespace videoGameApi.Controllers
             var videoGames = await _videoGameRepository.GetAllAsync();
             return Ok(videoGames);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<VideoGame>> GetByIdAsync(int id)
+        {
+            var videoGame = await _videoGameRepository.GetByIdAsync(id);
+            if (videoGame == null)
+            {
+                return NotFound();
+            }
+            return Ok(videoGame);
+        }
     }
 }

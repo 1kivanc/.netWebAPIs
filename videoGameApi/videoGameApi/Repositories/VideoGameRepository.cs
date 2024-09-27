@@ -20,10 +20,19 @@ namespace videoGameApi.Repositories
             return videoGames.ToList();
         }
 
+        public async Task<VideoGame> GetByIdAsync(int id)
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                var videoGame = await connection.QueryFirstOrDefaultAsync<VideoGame>("select * from VideoGames where id = @Id", new { Id = id });
+                return videoGame;
+            }
+        }
+
         private SqlConnection GetConnection()
         {
             return new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
-
         }
     }
 }
