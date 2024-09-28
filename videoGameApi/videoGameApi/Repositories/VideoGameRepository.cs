@@ -37,6 +37,13 @@ namespace videoGameApi.Repositories
             }
         }
 
+        public async Task UpdateAsync(VideoGame videoGame)
+        {
+            using var connection = GetConnection();
+            await connection.ExecuteAsync("update VideoGames set Title = @Title, Publisher = @Publisher, Developer = @Developer, ReleaseDate = @ReleaseDate where id = @Id", videoGame);
+
+        }
+
         private SqlConnection GetConnection()
         {
             return new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));

@@ -37,7 +37,14 @@ namespace videoGameApi.Controllers
         public async Task<ActionResult<VideoGame>> AddAsync(VideoGame videoGame)
         {
             await _videoGameRepository.AddSync(videoGame);
-            return Ok();
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = videoGame.Id }, videoGame);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<VideoGame>> UpdateAsync(VideoGame videoGame)
+        {
+            await _videoGameRepository.UpdateAsync(videoGame);
+            return NoContent();
         }
     }
 }
