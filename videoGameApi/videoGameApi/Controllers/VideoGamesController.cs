@@ -53,5 +53,18 @@ namespace videoGameApi.Controllers
             await _videoGameRepository.UpdateAsync(videoGame);
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            var existingVideoGame = await _videoGameRepository.GetByIdAsync(id);
+            if (existingVideoGame == null)
+            {
+                return NotFound("Video game not found");
+            }
+
+            await _videoGameRepository.DeleteAsync(id);
+            return NoContent();
+        }
     }
 }

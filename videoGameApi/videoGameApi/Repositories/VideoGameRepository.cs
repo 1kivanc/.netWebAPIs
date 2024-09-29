@@ -22,6 +22,12 @@ namespace videoGameApi.Repositories
 
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            using var connection = GetConnection();
+            await connection.ExecuteAsync("delete from VideoGames where id = @Id", new { Id = id });
+        }
+
         public async Task<List<VideoGame>> GetAllAsync()
         {
             using var connection = GetConnection();

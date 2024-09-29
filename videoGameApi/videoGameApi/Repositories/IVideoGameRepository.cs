@@ -8,6 +8,8 @@ namespace videoGameApi.Repositories
         Task<VideoGame> GetByIdAsync(int id);
         Task AddSync(VideoGame videoGame);
         Task UpdateAsync(VideoGame videoGame);
+        Task DeleteAsync(int id);
+
 
         
     }
