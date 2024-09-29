@@ -23,7 +23,7 @@ namespace videoGameApi.Controllers
             return Ok(videoGames);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name="GetById")]
         public async Task<ActionResult<VideoGame>> GetByIdAsync(int id)
         {
             var videoGame = await _videoGameRepository.GetByIdAsync(id);
@@ -37,12 +37,19 @@ namespace videoGameApi.Controllers
         public async Task<ActionResult<VideoGame>> AddAsync(VideoGame videoGame)
         {
             await _videoGameRepository.AddSync(videoGame);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = videoGame.Id }, videoGame);
+            return CreatedAtAction("GetById", new { id = videoGame.Id }, videoGame);
         }
 
         [HttpPut]
-        public async Task<ActionResult<VideoGame>> UpdateAsync(VideoGame videoGame)
+        public async Task<ActionResult<VideoGame>> UpdateAsync(int id,VideoGame videoGame)
         {
+            var existingVideoGame = await _videoGameRepository.GetByIdAsync(id);
+            if (existingVideoGame == null)
+            {
+                return NotFound("Video game not found");
+            }
+
+            videoGame.Id = id;
             await _videoGameRepository.UpdateAsync(videoGame);
             return NoContent();
         }
