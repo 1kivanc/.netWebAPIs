@@ -16,7 +16,9 @@ namespace videoGameApi.Repositories
         public async Task AddSync(VideoGame videoGame)
         {
             using var connection = GetConnection();
-            await connection.ExecuteAsync("insert into VideoGames (Title, Publisher, Developer, ReleaseDate) values (@Title, @Publisher, @Developer, @ReleaseDate)", videoGame);
+            var query = "insert into VideoGames (Title, Publisher, Developer, ReleaseDate) values (@Title, @Publisher, @Developer, @ReleaseDate);SELECT CAST(SCOPE_IDENTITY() as int)";
+            int newId = await connection.QuerySingleAsync<int>(query, videoGame);
+            videoGame.Id = newId;
 
         }
 
